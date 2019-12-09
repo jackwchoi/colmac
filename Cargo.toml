@@ -6,6 +6,8 @@ edition = "2018"
 description = "Macros to work with `std::collections`"
 repository = "https://github.com/jchoi5me/colmac"
 license = "MIT"
+readme = "README.md"
+documentation = "https://docs.rs/colmac"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
