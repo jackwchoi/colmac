@@ -1,6 +1,6 @@
 [package]
 name = "colmac"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Jack <jchoi5@me.com>"]
 edition = "2018"
 description = "Macros to work with `std::collections`"

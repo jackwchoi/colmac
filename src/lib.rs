@@ -53,6 +53,31 @@ macro_rules! string {
     };
 }
 
+/// Concatenate multiple sliceable structs like `Vec` or `String`.
+///
+/// Does not mutate the input structs.
+///
+/// ```
+/// #[macro_use] extern crate colmac;
+///
+/// let a = vec![1, 2];
+/// let b = vec![3, 4];
+/// let c = vec![5, 6];
+///
+/// assert_eq!(concat_vec![a, b], vec![1, 2, 3, 4]);
+/// assert_eq!(concat_vec![a, c, b], vec![1, 2, 5, 6, 3, 4]);
+/// ```
+#[macro_export]
+macro_rules! concat_vec {
+    ( $( $sliceable:expr ),* ) => {{
+        [
+            $(
+                &$sliceable[..],
+            )*
+        ].concat()
+    }};
+}
+
 /// Just like `vec!`, but for `std::collections::HashMap`.
 ///
 /// This macro uses `count_args!` to preallocate the exact amount of memory
@@ -263,6 +288,38 @@ mod tests {
         fn many() {
             let expected = 4;
             let result = count_args!(10, 20, 30, 40);
+            assert_eq!(expected, result);
+        }
+    }
+
+    mod concat_vec {
+        #[test]
+        fn one() {
+            let a = vec![1, 2];
+
+            let expected = vec![1, 2];
+            let result = concat_vec![a];
+            assert_eq!(expected, result);
+        }
+
+        #[test]
+        fn two() {
+            let a = vec![1, 2];
+            let b = vec![3, 4];
+
+            let expected = vec![1, 2, 3, 4];
+            let result = concat_vec![a, b];
+            assert_eq!(expected, result);
+        }
+
+        #[test]
+        fn many() {
+            let a = vec![1, 2];
+            let b = vec![3, 4];
+            let c = vec![5, 6];
+
+            let expected = vec![1, 2, 5, 6, 3, 4];
+            let result = concat_vec![a, c, b];
             assert_eq!(expected, result);
         }
     }
