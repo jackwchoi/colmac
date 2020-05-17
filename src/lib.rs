@@ -293,34 +293,48 @@ mod tests {
     }
 
     mod concat_vec {
-        #[test]
-        fn one() {
-            let a = vec![1, 2];
+        mod copy {
+            #[test]
+            fn one() {
+                let a = vec![1, 2];
 
-            let expected = vec![1, 2];
-            let result = concat_vec![a];
-            assert_eq!(expected, result);
+                let expected = vec![1, 2];
+                let result = concat_vec![a];
+                assert_eq!(expected, result);
+            }
+
+            #[test]
+            fn two() {
+                let a = vec![1, 2];
+                let b = vec![3, 4];
+
+                let expected = vec![1, 2, 3, 4];
+                let result = concat_vec![a, b];
+                assert_eq!(expected, result);
+            }
+
+            #[test]
+            fn many() {
+                let a = vec![1, 2];
+                let b = vec![3, 4];
+                let c = vec![5, 6];
+
+                let expected = vec![1, 2, 5, 6, 3, 4];
+                let result = concat_vec![a, c, b];
+                assert_eq!(expected, result);
+            }
         }
 
-        #[test]
-        fn two() {
-            let a = vec![1, 2];
-            let b = vec![3, 4];
+        mod clone {
+            #[test]
+            fn two() {
+                let a = vec![string!("ab"), string!("cd")];
+                let b = vec![string!("ef"), string!("gh")];
 
-            let expected = vec![1, 2, 3, 4];
-            let result = concat_vec![a, b];
-            assert_eq!(expected, result);
-        }
-
-        #[test]
-        fn many() {
-            let a = vec![1, 2];
-            let b = vec![3, 4];
-            let c = vec![5, 6];
-
-            let expected = vec![1, 2, 5, 6, 3, 4];
-            let result = concat_vec![a, c, b];
-            assert_eq!(expected, result);
+                let expected = vec![string!("ab"), string!("cd"), string!("ef"), string!("gh")];
+                let result = concat_vec![a, b];
+                assert_eq!(expected, result);
+            }
         }
     }
 
